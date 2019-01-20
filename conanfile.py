@@ -14,6 +14,7 @@ class VisitstructConan(ConanFile):
     # topics = ("<Put some tag here>", "<here>", "<and here>")
     no_copy_source = True
     # No settings/options are necessary, this is header only
+    homepage = "https://github.com/cbeck88/visit_struct"
 
     def source(self):
         '''retrieval of the source code here. Remember you can also put the code
