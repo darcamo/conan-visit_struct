@@ -1,32 +1,29 @@
-from conans import ConanFile, CMake, tools
-# from conans.errors import ConanException
-import os
-import shutil
+# noqa: D100
+
+from conan import ConanFile
+from conan.tools.files import get, copy
 
 
-class VisitstructConan(ConanFile):
+class visit_structRecipe(ConanFile):  # noqa: D101
     name = "visit_struct"
-    version = "1.0"
+    user = "gtel"
+    channel = "stable"
     license = "Boost Software License"
     author = "Darlan Cavalcante Moreira (darcamo@gmail.com)"
     url = "https://github.com/darcamo/conan-visit_struct"
     description = "A miniature library for struct-field reflection in C++ "
-    # topics = ("<Put some tag here>", "<here>", "<and here>")
+    topics = ("reflection", "introspection", "visitor")
     no_copy_source = True
-    # No settings/options are necessary, this is header only
     homepage = "https://github.com/cbeck88/visit_struct"
 
-    def source(self):
-        '''retrieval of the source code here. Remember you can also put the code
-        in the folder and use exports instead of retrieving it with this
-        source() method
-        '''
-        tools.get("https://github.com/cbeck88/visit_struct/archive/v{0}.zip".format(
-                self.version))
-        shutil.move("visit_struct-{}/".format(self.version), "sources")
+    package_type = "header-library"
+    
+    def source(self):  # noqa: D102
+        get(self, self.conan_data['sources'][self.version], strip_root=True)
 
-    def package(self):
-        self.copy("*", dst="include", src="sources/include")
+    def package(self):  # noqa: D102
+        copy(self, "*.hpp", self.source_folder, self.package_folder)
 
-    def package_id(self):
-        self.info.header_only()
+    def package_info(self):  # noqa: D102
+        self.cpp_info.bindirs = []
+        self.cpp_info.libdirs = []
